@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang='en'>
+<head>
+<meta charset='UTF-8'>
+<meta http-equiv='X-UA-Compatible' content='IE=edge'>
+<meta name='viewport' content='width=device-width, initial-scale=1.0'>
+    <link rel="stylesheet" href="./style.css">
+    <script type='module' src='main.js'></script>
+    <title>Document</title>
+</head>
+    <body>
+        <section id="maze">
+
+            
+        </section>
+        <label for="sizeSelect">Maze Size</label>
+        <input id="sizeSelect" name="sizeSelect" type="range" value="51" min="10" max="151">
+        <output>51</output>
+        <br>
+        <button id="new">New Maze</button>
+        <button id="start">Animate New Maze</button>
+
+        <br>
+        <br>
+
+        <button id="insta-solve">Show Solution</button>
+        <button id="solve">Animate Solution</button>
+
+        <p>Algorithm</p>
+       
+        <select name="algoSelect" id="algoSelect">
+            <option value="dfs" selected="selected">Depth Frist Search</option>
+            <option value="bfs">Breadth Frist Search</option>
+
+          </select>
+        <br>
+        <p id="totalNodes"></p>
+    </body>
+</html>

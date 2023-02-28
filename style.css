@@ -1,0 +1,51 @@
+body {
+    background-color: grey;
+}
+
+#maze {
+    display: flex;
+    flex-wrap: wrap;
+    margin:0;
+    flex-direction: row;
+
+}
+
+.wall {
+    height:5px;
+    width:5px;
+    background-color: black;
+}
+
+.path {
+    height:5px;
+    width:5px;
+    background-color: rgb(220,220,220);
+}
+
+.goal {
+    height:5px;
+    width:5px;
+    background-color:rgb(75, 172, 49);
+}
+
+.explored {
+    height:5px;
+    width:5px;
+    background-color: rgb(230, 191, 109);
+}
+
+.finalPath {
+    height:5px;
+    width:5px;
+    background-color:rgb(75, 172, 49);
+}
+
+
+
+.blue {
+    background-color: blue;
+}
+
+p {
+    margin-bottom:0
+}
