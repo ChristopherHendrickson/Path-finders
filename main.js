@@ -19,8 +19,9 @@ const removeWallBetweenNodes = (node1,node2) => {
     wallNodeDisplay.classList.add('path')
 }
 
-const clearMaze = () =>{
-    // removes the solution from the maze
+const createBlankMaze = () =>{
+    // creates a blank template to create a new maze
+    document.getElementById('solveinfo').innerHTML = ""
     const mazeDisplay = document.getElementById('maze')
     mazeDisplay.innerHTML= ''
     mazeDisplay.style['width'] = `${5*size}px`
@@ -47,21 +48,6 @@ const clearMaze = () =>{
 }
 
 
-const resetMaze = () => {
-    // creates a blank template to create a new maze
-    const exploredNodes = document.querySelectorAll(".explored");
-    const pathNodes = document.querySelectorAll(".path");
-
-    exploredNodes.forEach((node) => {
-        node.classList.remove('explored')
-        node.classList.add('path')
-    })
-    pathNodes.forEach((node) => {
-        node.classList.remove('finalPath')
-        node.classList.add('path')
-    })
-}
-
 const animateMaze = () => {
     // animates the drawing of a new mze
     
@@ -69,7 +55,7 @@ const animateMaze = () => {
     clearInterval(solveInterval)
 
     maze = new Maze(size)
-    clearMaze()
+    createBlankMaze()
 
     const mazeDisplay = document.getElementById('maze')
     mazeDisplay.style['width'] = `${5*maze.size}px`
@@ -105,6 +91,8 @@ const newMaze = () => {
     clearInterval(solveInterval)
     
     maze = new Maze(size)
+    document.getElementById('solveinfo').innerHTML = ""
+
     const mazeDisplay = document.getElementById('maze')
     mazeDisplay.innerHTML=''
     mazeDisplay.style['width'] = `${5*size}px`
@@ -126,11 +114,26 @@ const newMaze = () => {
     goal.classList.add('goal')
 }
 
+const removeSolutionFromMaze = () => {
+    // removes the solution from the maze
+    const exploredNodes = document.querySelectorAll(".explored");
+    const pathNodes = document.querySelectorAll(".path");
+
+    exploredNodes.forEach((node) => {
+        node.classList.remove('explored')
+        node.classList.add('path')
+    })
+    pathNodes.forEach((node) => {
+        node.classList.remove('finalPath')
+        node.classList.add('path')
+    })
+}
+
 const animateSolution = (solution) => {
     //animates hte solution and paths
     clearInterval(solveInterval)
 
-    resetMaze()
+    removeSolutionFromMaze()
     let i = 0
     let showingFinal = false
     let path = solution.path
@@ -161,12 +164,8 @@ const showSolution = (solution) => {
     //instantly shows the solution and paths
     clearInterval(solveInterval)
 
-    resetMaze()
-    let i = 0
-    let showingFinal = false
-    let path = solution.path
-
-    console.log(solution)
+    removeSolutionFromMaze()
+    
     for (let node of solution.path) {
         const nodeDisplay = document.getElementById(`${node[1]};${node[0]}`)
         nodeDisplay.classList.remove('explored')
@@ -192,6 +191,14 @@ const selectAlgorithm = (str) => {
     }
 }
 
+const solverButtonHandler = (drawFunction) => {
+    const algorithmSelect = document.getElementById('algoSelect')
+    const solver = selectAlgorithm(algorithmSelect.value)
+    const solution = solver.getSolutionPath(maze)
+    drawFunction(solution)
+    document.getElementById('solveinfo').innerHTML = `Runtime: ${solution.runtime} ms <br> Nodes Checked: ${solution.totalNodesChecked} <br> Path Length: ${solution.solution.length}`
+}
+
 const sizeSelect = document.getElementById('sizeSelect')
 sizeSelect.oninput = ()=>{
     const intSize = Number(sizeSelect.value)
@@ -211,26 +218,16 @@ newButton.addEventListener('click', ()=> {
     newMaze()    
 })
 
-const solveButton = document.getElementById('solve')
+
+
+const solveButton = document.getElementById('animate-solve')
 solveButton.addEventListener('click', ()=> {
-    const algorithmSelect = document.getElementById('algoSelect')
-
-    const solver = selectAlgorithm(algorithmSelect.value)
-    const solution = solver.getSolutionPath(maze)
-    animateSolution(solution)
-    document.getElementById('totalNodes').innerHTML = `Nodes Checked: ${solution.totalNodesChecked} <br> Path Length: ${solution.solution.length}`
-
+    solverButtonHandler(animateSolution)
 })
 
-const instantSolveButton = document.getElementById('insta-solve')
+const instantSolveButton = document.getElementById('instant-solve')
 instantSolveButton.addEventListener('click', ()=> {
-    const algorithmSelect = document.getElementById('algoSelect')
-
-    const solver = selectAlgorithm(algorithmSelect.value)
-    const solution = solver.getSolutionPath(maze)
-    showSolution(solution)
-    document.getElementById('totalNodes').innerHTML = `Nodes Checked: ${solution.totalNodesChecked} <br> Path Length: ${solution.solution.length}`
-
+    solverButtonHandler(showSolution)
 })
 
 newMaze()

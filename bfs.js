@@ -2,7 +2,7 @@ import PathFinder from "./PathFinder.js";
 
 class BreadthFirstSearch extends PathFinder {
     getSolutionPath (maze) {
-        
+        const startTime = performance.now() 
         let node = [1,0]
         const queue = [[node]]
         const visited = ['1;0']
@@ -21,7 +21,9 @@ class BreadthFirstSearch extends PathFinder {
                     return {
                         'solution': solution,
                         'path': path,
-                        'totalNodesChecked': path.length
+                        'totalNodesChecked': path.length,
+                        'runtime': Math.round((performance.now() - startTime)*10000)/10000
+
                     }
                 }
             }

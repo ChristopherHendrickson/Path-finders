@@ -2,6 +2,7 @@ import PathFinder from "./PathFinder.js";
 
 class DepthFirstSearch extends PathFinder {
     getSolutionPath (maze) {
+        const startTime = performance.now() 
         
         let node = [1,0]
         const stack = [[node]]
@@ -21,7 +22,8 @@ class DepthFirstSearch extends PathFinder {
                     return {
                         'solution': solution,
                         'path': path,
-                        'totalNodesChecked': path.length
+                        'totalNodesChecked': path.length,
+                        'runtime': Math.floor((performance.now() - startTime)*1000)/1000
                     }
                 }
             }
